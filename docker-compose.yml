@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+    elysium:
+        image: bloxbytes/elysium:2.0.2
+        restart: always
+        container_name: elysium
+        volumes:
+          - ~/elysium-data:/drivevolume
+        ports:
+          - 9999:9933
+          - 9941:9945
+          - 9615:9615
+          - 30333:30333
