@@ -1,14 +1,27 @@
-version: '3.8'
+version: '3'
 
 services:
-    elysium:
-        image: bloxbytes/elysium:2.0.2
-        restart: always
-        container_name: elysium
-        volumes:
-          - ~/elysium-data:/drivevolume
-        ports:
-          - 9999:9933
-          - 9941:9945
-          - 9615:9615
-          - 30333:30333
+  elysium-node:
+    container_name: elysium-node
+    image: intellicoworks/elysium:latest
+    ports:
+      - 30333:30333 # p2p port
+      - 127.0.0.1:9933:9933 # rpc port
+      - 127.0.0.1:9944:9944 # ws port
+    volumes:
+      - ./chain-data:/data
+    command: [
+      "--name","elysium-node",
+      "--ws-external",
+      "--rpc-external",
+      "--rpc-cors", "all",
+      "--unsafe-rpc-external",
+      "--rpc-methods=Safe",
+      "--unsafe-ws-external",
+      "--prometheus-external",
+      "--node-key", "YOUR NODE KEY",
+      "--chain", "./elysiumSpecRaw.json",
+      "--bootnodes", "/ip4/IP-ADDRESS/tcp/30333/p2p/PEER-ID",
+      "--offchain-worker","always",
+      "--validator"
+    ]
